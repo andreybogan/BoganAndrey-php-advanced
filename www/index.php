@@ -29,7 +29,8 @@ $product1->update();
 
 
 // Удаляем товар по заданному id.
-$product2 = $product->getOne(9)->delete();
+$product2 = $product->getOne(11);
+$product2->delete();
 
 // Получаем все товары в виде объектов.
 $arrObjAllProduct = $product->getAll();
