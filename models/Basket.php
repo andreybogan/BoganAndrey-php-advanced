@@ -14,15 +14,23 @@ class Basket extends Model {
     return 'basket';
   }
 
-  public function getWhereOne() {
-    return "where id_prod = '{$this->id_prod}' and id_user = '{$this->id_user}'";
+  public function getOne($id_prod) {
+    return [];
   }
 
-  public function getWhereAll() {
-    return "where id_user = '{$this->id_user}'";
+  public function getAll() {
+    return [];
   }
 
-  public function getTotalAmount() {
+  public function update() {
+    return [];
+  }
 
+  public function insert() {
+    return [];
+  }
+
+  public function delete() {
+    return [];
   }
 }

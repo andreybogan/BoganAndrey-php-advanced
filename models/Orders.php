@@ -14,15 +14,23 @@ class Orders extends Model {
     return 'basket';
   }
 
-  public function getWhereOne() {
-    return "where id_order = '{$this->id_order}' and id_user = '{$this->id_user}'";
+  public function getOne($id_prod) {
+    return [];
   }
 
-  public function getWhereAll() {
-    return "where id_user = '{$this->id_user}'";
+  public function getAll() {
+    return [];
   }
 
-  public function getOrdersDelivered() {
+  public function update() {
+    return [];
+  }
 
+  public function insert() {
+    return [];
+  }
+
+  public function delete() {
+    return [];
   }
 }

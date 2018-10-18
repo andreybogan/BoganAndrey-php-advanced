@@ -11,15 +11,23 @@ class User extends Model {
     return 'users';
   }
 
-  public function getWhereOne() {
-    return "where id_user = '{$this->id}'";
+  public function getOne($id_prod) {
+    return [];
   }
 
-  public function getWhereAll() {
-    return '';
+  public function getAll() {
+    return [];
   }
 
-  public function getUserByRole() {
+  public function update() {
+    return [];
+  }
 
+  public function insert() {
+    return [];
+  }
+
+  public function delete() {
+    return [];
   }
 }

@@ -8,9 +8,9 @@ interface IModel {
 
   public function getAll();
 
-  public function getTableName();
+  public function insert();
 
-  public function getWhereOne();
+  public function update();
 
-  public function getWhereAll();
+  public function delete();
 }
