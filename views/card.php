@@ -1,6 +1,6 @@
 <?php /** @var  \app\models\Product $model , $modelImg */ ?>
 
-  <a href="/catalog">Вернуться в каталог товаров.</a>
+  <a href="/">Вернуться в каталог товаров.</a>
 
   <h1><?= $model->name ?></h1>
   <p><?= $model->description ?></p>

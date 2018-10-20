@@ -6,14 +6,14 @@
 
   <?php foreach ($model as $value): ?>
     <div class="item">
-      <a href="catalog/catalog_one/<?= $value->id ?>">
+      <a href="index.php?a=card&id=<?= $value->id ?>">
         <?php if ($value->img != ''): ?>
           <img src="./images/small/<?= $value->img ?>" alt="">
         <?php else: ?>
           <div class="plug">Фото отсутствует</div>
         <?php endif; ?>
       </a>
-      <a href="catalog/catalog_one/<?= $value->id ?>">
+      <a href="index.php?a=card&id=<?= $value->id ?>">
         <p><?= $value->name ?></p>
       </a>
       <p>Цена <?= $value->price ?> руб.</p>
