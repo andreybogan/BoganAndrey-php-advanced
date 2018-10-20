@@ -6,33 +6,38 @@ include $_SERVER['DOCUMENT_ROOT'] . "/../services\Autoloader.php";
 spl_autoload_register([new app\services\Autoloader('app'), 'loadClass']);
 
 // Создаем объект класса Product.
-$product = new app\models\Product();
-
+//$product = new app\models\Product();
+//var_dump($product);
 // Задаем параметры для нового товара.
-$product->name = "Новый товар";
-$product->description = "Это описание для нового товара";
-$product->price = "1200";
-$product->img = "newImg.jpg";
-$product->hide = "see";
+//$product->name = "Новый товар 2";
+//$product->description = "Это описание для нового товара";
+//$product->price = "1200";
+//$product->img = "newImg.jpg";
+//$product->hide = "see";
+//var_dump($product);
 // Создаем новый товар.
-$product->insert();
+//$product->insert();
 
 // Получаем объект товара по заданному id.
-$product1 = $product->getOne(5);
+$product1 = app\models\Product::getOne(1);
+var_dump($product1);
 // Задаем новые параметры.
 $product1->name = "Измененный файл";
 $product1->description = "Измененное описание";
 $product1->price = "900";
 $product1->img = "changeImg.jpg";
+
+var_dump($product1);
 // Изменяем товар.
 $product1->update();
 
 
 // Удаляем товар по заданному id.
-$product2 = $product->getOne(11);
-$product2->delete();
+//$product2 = $product->getOne(5);
+//var_dump($product2);
+//$product2->insert();
 
 // Получаем все товары в виде объектов.
-$arrObjAllProduct = $product->getAll();
-
-var_dump($arrObjAllProduct);
+//$AllProduct = app\models\Product::getAll();
+//
+//var_dump($AllProduct);

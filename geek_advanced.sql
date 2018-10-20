@@ -100,7 +100,7 @@ CREATE TABLE `products` (
 -- Дамп данных таблицы `products`
 --
 
-INSERT INTO `products` (`id_prod`, `name`, `description`, `price`, `img`, `hide`) VALUES
+INSERT INTO `products` (id, `name`, `description`, `price`, `img`, `hide`) VALUES
 (1, 'Портмоне для документов', 'Отличный портмоне для мужчин. Стильный и практичный. Подойдёт для каждодневного использования. Имеет скрытые магнитные застежки.', 1500, '1-1.jpg', 'see'),
 (2, 'Коробочка для денег', 'Коробочка для денежного подарка \"Travel\" с открыткой.\r\nОтличная упаковка для денежного подарка!\r\nВас пригласили на свадьбу, день рождения, юбилей, и вы хотите красиво подарить денежные средства, на долгожданное путешествие.\r\nДанная коробочка отличная и оригинальная упаковка для вашего подарка!', 750, '2-1.jpg', 'see'),
 (3, 'Органайзер для детских документов', 'Надоело искать документы по всему дому? Носите их в файлике с кнопочкой? В нужный момент перебираете кучу, чтобы найти свидетельство? Забудьте все эти проблемы! В этом органайзере все по местам.', 2000, '3-1.jpg', 'see'),
@@ -187,7 +187,7 @@ ALTER TABLE `order_items`
 -- Индексы таблицы `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id_prod`);
+  ADD PRIMARY KEY (id);
 
 --
 -- Индексы таблицы `product_img`
@@ -216,7 +216,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id_prod` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `product_img`
