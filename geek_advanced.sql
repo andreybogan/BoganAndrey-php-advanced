@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 18 2018 г., 14:30
+-- Время создания: Окт 21 2018 г., 01:54
 -- Версия сервера: 5.7.23
 -- Версия PHP: 7.2.10
 
@@ -31,6 +31,7 @@ USE `geek_advanced`;
 --
 
 CREATE TABLE `basket` (
+  `id` int(11) NOT NULL,
   `id_prod` tinyint(3) UNSIGNED NOT NULL,
   `id_user` tinyint(3) UNSIGNED NOT NULL,
   `amount` tinyint(3) UNSIGNED NOT NULL
@@ -88,9 +89,9 @@ INSERT INTO `order_items` (`id_order`, `id_prod`, `item_price`, `quantity`, `nam
 --
 
 CREATE TABLE `products` (
-  `id_prod` tinyint(3) UNSIGNED NOT NULL,
+  `id` tinyint(3) UNSIGNED NOT NULL,
   `name` varchar(128) NOT NULL,
-  `description` text NOT NULL,
+  `text` text NOT NULL,
   `price` smallint(6) NOT NULL,
   `img` varchar(64) DEFAULT NULL,
   `hide` enum('see','hide') NOT NULL DEFAULT 'see'
@@ -100,14 +101,11 @@ CREATE TABLE `products` (
 -- Дамп данных таблицы `products`
 --
 
-INSERT INTO `products` (id, `name`, `description`, `price`, `img`, `hide`) VALUES
+INSERT INTO `products` (`id`, `name`, `text`, `price`, `img`, `hide`) VALUES
 (1, 'Портмоне для документов', 'Отличный портмоне для мужчин. Стильный и практичный. Подойдёт для каждодневного использования. Имеет скрытые магнитные застежки.', 1500, '1-1.jpg', 'see'),
 (2, 'Коробочка для денег', 'Коробочка для денежного подарка \"Travel\" с открыткой.\r\nОтличная упаковка для денежного подарка!\r\nВас пригласили на свадьбу, день рождения, юбилей, и вы хотите красиво подарить денежные средства, на долгожданное путешествие.\r\nДанная коробочка отличная и оригинальная упаковка для вашего подарка!', 750, '2-1.jpg', 'see'),
 (3, 'Органайзер для детских документов', 'Надоело искать документы по всему дому? Носите их в файлике с кнопочкой? В нужный момент перебираете кучу, чтобы найти свидетельство? Забудьте все эти проблемы! В этом органайзере все по местам.', 2000, '3-1.jpg', 'see'),
-(4, 'Удивительные фотографии птиц', 'Это одни из самых удивительных фотографий известного во всем мире фотографа Неизвестного Ивана.', 500, '8ca12b96d_00000013-2.jpg', 'see'),
-(5, 'Измененный файл', 'Измененное описание', 900, 'changeImg.jpg', 'see'),
-(12, 'Новый товар', 'Это описание для нового товара', 1200, 'newImg.jpg', 'see'),
-(13, 'Новый товар', 'Это описание для нового товара', 1200, 'newImg.jpg', 'see');
+(4, 'Удивительные фотографии птиц', 'Это одни из самых удивительных фотографий известного во всем мире фотографа Неизвестного Ивана.', 500, '8ca12b96d_00000013-2.jpg', 'see');
 
 -- --------------------------------------------------------
 
@@ -116,7 +114,7 @@ INSERT INTO `products` (id, `name`, `description`, `price`, `img`, `hide`) VALUE
 --
 
 CREATE TABLE `product_img` (
-  `id_img` tinyint(3) UNSIGNED NOT NULL,
+  `id` tinyint(3) UNSIGNED NOT NULL,
   `id_prod` tinyint(3) UNSIGNED NOT NULL,
   `img` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -125,7 +123,7 @@ CREATE TABLE `product_img` (
 -- Дамп данных таблицы `product_img`
 --
 
-INSERT INTO `product_img` (id, `id_prod`, `img`) VALUES
+INSERT INTO `product_img` (`id`, `id_prod`, `img`) VALUES
 (1, 1, '1-1.jpg'),
 (2, 1, '1-2.jpg'),
 (3, 2, '2-1.jpg'),
@@ -168,7 +166,7 @@ INSERT INTO `user` (`id_user`, `login`, `pass`, `name`) VALUES
 -- Индексы таблицы `basket`
 --
 ALTER TABLE `basket`
-  ADD PRIMARY KEY (`id_prod`,`id_user`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `orders`
@@ -187,13 +185,13 @@ ALTER TABLE `order_items`
 -- Индексы таблицы `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (id);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `product_img`
 --
 ALTER TABLE `product_img`
-  ADD PRIMARY KEY (id),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_prod` (`id_prod`);
 
 --
@@ -207,6 +205,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `basket`
+--
+ALTER TABLE `basket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
@@ -216,19 +220,29 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `product_img`
 --
 ALTER TABLE `product_img`
-  MODIFY id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
   MODIFY `id_user` tinyint(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `product_img`
+--
+ALTER TABLE `product_img`
+  ADD CONSTRAINT `product_img_products_id_fk` FOREIGN KEY (`id_prod`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
