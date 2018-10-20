@@ -125,7 +125,7 @@ CREATE TABLE `product_img` (
 -- Дамп данных таблицы `product_img`
 --
 
-INSERT INTO `product_img` (`id_img`, `id_prod`, `img`) VALUES
+INSERT INTO `product_img` (id, `id_prod`, `img`) VALUES
 (1, 1, '1-1.jpg'),
 (2, 1, '1-2.jpg'),
 (3, 2, '2-1.jpg'),
@@ -193,7 +193,7 @@ ALTER TABLE `products`
 -- Индексы таблицы `product_img`
 --
 ALTER TABLE `product_img`
-  ADD PRIMARY KEY (`id_img`),
+  ADD PRIMARY KEY (id),
   ADD KEY `id_prod` (`id_prod`);
 
 --
@@ -222,7 +222,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT для таблицы `product_img`
 --
 ALTER TABLE `product_img`
-  MODIFY `id_img` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `user`

@@ -5,11 +5,11 @@ namespace app\models;
 use app\services\Db;
 
 /**
- * Class Model определяет свойства и методы для работы с базой данных различных объектов модели, таких как: продукты,
- * пользователи, корзина, заказы и т.д.
+ * Class DataModel определяет свойства и методы для работы с базой данных различных объектов модели, таких как:
+ * продукты, пользователи, корзина, заказы и т.д.
  * @package app\models
  */
-abstract class Model implements IModel {
+abstract class DataModel implements IModel {
 
   /** @var Db */
   protected $db;
@@ -136,6 +136,15 @@ abstract class Model implements IModel {
    */
   public function __set($name, $value) {
     $this->changedValue[$name] = $value;
+  }
+
+  /**
+   * Метод возвращает значение свойства недоступного вне класса.
+   * @param string $name - Название свойства.
+   * @return mixed Значение свойства.
+   */
+  public function __get($name) {
+    return $this->$name;
   }
 
   /**

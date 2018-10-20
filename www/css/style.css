@@ -1,0 +1,99 @@
+body, html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    flex: 1;
+}
+
+* {
+    box-sizing: border-box
+}
+
+input, textarea {
+    display: block;
+    margin: 4px 0;
+    width: 400px;
+}
+
+.submit {
+    margin-top: 12px;
+    width: auto;
+}
+
+.comment {
+    width: 400px;
+    padding: 12px;
+    margin: 4px 0;
+    border: 1px solid #cdcdcd;
+    background: #f0f0f0;
+}
+
+hr {
+    margin: 24px 0;
+}
+
+.catalog {
+    display: flex;
+}
+
+.item {
+    padding: 16px;
+    border: 1px solid #f0f0f0;
+    max-width: 232px;
+    margin-right: 6px;
+}
+
+header {
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #cdcdcd;
+    background: #f0f0f0;
+    margin-bottom: 24px;
+    padding: 12px;
+}
+
+.shop_name {
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: red;
+}
+
+.itemBasket input {
+    display: inline-block;
+}
+
+.link_button {
+    display: inline-block;
+}
+
+footer {
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #cdcdcd;
+    background: #f0f0f0;
+    margin: 24px 0;
+    padding: 12px;
+}
+
+.plug {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #cdcdcd;
+    font-weight: bold;
+    color: gray;
+}

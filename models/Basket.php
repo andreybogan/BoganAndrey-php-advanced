@@ -2,35 +2,22 @@
 
 namespace app\models;
 
-class Basket extends Model {
+/**
+ * Class Basket определяет свойства и методы для работы с корзиной.
+ * @package app\models
+ */
+class Basket extends DataModel {
+
+  public $id;
   public $id_prod;
   public $id_user;
-  public $name;
-  public $description;
-  public $price;
-  public $producerId;
+  public $amount;
 
-  public function getTableName() {
+  /**
+   * Метод возвращает название таблицы в базе данных для текущего класса.
+   * @return string Название таблицы для данного класса.
+   */
+  public static function getTableName() {
     return 'basket';
-  }
-
-  public function getOne($id_prod) {
-    return [];
-  }
-
-  public function getAll() {
-    return [];
-  }
-
-  public function update() {
-    return [];
-  }
-
-  public function insert() {
-    return [];
-  }
-
-  public function delete() {
-    return [];
   }
 }
