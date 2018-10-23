@@ -3,10 +3,13 @@
 require __DIR__ . "/../global/config.php";
 
 // Подключаем класс автозагрузки.
-include $_SERVER['DOCUMENT_ROOT'] . "/../services\Autoloader.php";
+//include $_SERVER['DOCUMENT_ROOT'] . "/../services\Autoloader.php";
 
 // Регистрируем заданную функцию в качестве автозагрузчика классов.
-spl_autoload_register([new app\services\Autoloader('app'), 'loadClass']);
+//spl_autoload_register([new app\services\Autoloader('app'), 'loadClass']);
+
+// Подключаем класс автозагрузки Composer.
+include $_SERVER['DOCUMENT_ROOT'] . "/../vendor\autoload.php";
 
 // Получаем имена controller and action.
 $controllerName = $_GET['c'] ?: DEFAULT_CONTROLLER;
