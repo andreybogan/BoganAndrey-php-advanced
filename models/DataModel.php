@@ -24,6 +24,14 @@ abstract class DataModel implements IModel {
   }
 
   /**
+   * Метод возвращает текущее подключение к базе данных для статических методов.
+   * @return Db Текущее подключение к базе данных.
+   */
+  private static function getDb() {
+    return Db::getInstance();
+  }
+
+  /**
    * Метод получает из базы данных элемент и возвращает его в виде объекта класса.
    * @param int $id - ID элемента в базе данных.
    * @return object Элемент в виде объекта текущего класса.
@@ -31,7 +39,7 @@ abstract class DataModel implements IModel {
   public static function getOne($id) {
     $table = static::getTableName();
     $sql = "select * from {$table} where id = :id";
-    $std = Db::getInstance()->queryObject($sql, get_called_class(), [':id' => $id]);
+    $std = static::getDb()->queryObject($sql, get_called_class(), [':id' => $id]);
     return $std;
   }
 
@@ -42,7 +50,7 @@ abstract class DataModel implements IModel {
   public static function getAll() {
     $table = static::getTableName();
     $sql = "select * from {$table}";
-    return Db::getInstance()->queryArrObject($sql, get_called_class());
+    return static::getDb()->queryArrObject($sql, get_called_class());
   }
 
   /**
@@ -135,7 +143,9 @@ abstract class DataModel implements IModel {
    * @param mixed $value - Значение свойства.
    */
   public function __set($name, $value) {
-    $this->changedValue[$name] = $value;
+    if (isset($this->$name)) {
+      $this->changedValue[$name] = $value;
+    }
   }
 
   /**
@@ -144,7 +154,10 @@ abstract class DataModel implements IModel {
    * @return mixed Значение свойства.
    */
   public function __get($name) {
-    return $this->$name;
+    if (isset($this->$name)) {
+      return $this->$name;
+    }
+    return null;
   }
 
   /**

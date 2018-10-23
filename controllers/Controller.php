@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\services\renderers\IRenderer;
+use app\services\renderers\TemplateRenderer;
+
 /**
  * Class Controller реализует свойства и методы общие для всех контроллеров.
  * @package app\controllers
@@ -12,6 +15,16 @@ abstract class Controller {
   private $defaultAction = 'index';
   private $layout = "main";
   private $useLayout = true;
+
+  private $renderer = null;
+
+  /**
+   * Controller constructor.
+   * @param IRenderer $renderer
+   */
+  public function __construct(IRenderer $renderer) {
+    $this->renderer = $renderer;
+  }
 
   // Метод запускает контроллер.
   public function run($action = null) {
@@ -49,19 +62,12 @@ abstract class Controller {
   }
 
   /**
-   * Метод генерирует шаблон и возвращает его в виде строки.
+   * Метод возвращает сгенерированный шаблон в виде строки.
    * @param string $template - Имя подлключаемой страницы.
    * @param array $params - Список параметров, которые мы получаем в функции.
    * @return false|string Возвращаем сгенерированный шаблон в виде строки.
    */
   public function renderTemplate($template, $params = []) {
-    // Извлекаем переменные из массива.
-    extract($params);
-    // Включаем буферизацию вывода.
-    ob_start();
-    // Подключаем шаблон.
-    require TEMPLATE_DIR . $template . ".php";
-    // Возвращаем полученное содержимое текущего буфера, бефер очищаем.
-    return ob_get_clean();
+    return $this->renderer->render($template, $params);
   }
 }
