@@ -1,16 +1,32 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ANDREY
- * Date: 22.10.2018
- * Time: 20:54
- */
 
 namespace app\services\renderers;
 
-
+/**
+ * Class TwigRenderer
+ * @package app\services\renderers
+ */
 class TwigRenderer implements IRenderer {
-  public function render($tamplaet, $params = []) {
-    // TODO: Implement render() method.
+
+  /**
+   * Метод генерирует шаблон и возвращает его в виде строки.
+   * @param string $template - Имя подлключаемой страницы.
+   * @param array $params - Список параметров, которые мы получаем в функции.
+   * @return false|string Возвращаем сгенерированный шаблон в виде строки.
+   */
+  public function render($template, $params = []) {
+    try {
+      // Указывает, где хранятся шаблоны.
+      $loader = new \Twig_Loader_Filesystem(TEMPLATE_DIR . 'twig');
+      // Инициализируем Twig.
+      $twig = new \Twig_Environment($loader, array(
+        'cache' => '../cache',
+        'auto_reload' => true
+      ));
+      // Передаем в шаблон переменные и значения и выводим сформированное содержаниею
+      return $twig->render($template . ".twig", $params);
+    } catch (\Exception $e) {
+      exit('Ошибка: ' . $e->getMessage());
+    }
   }
 }

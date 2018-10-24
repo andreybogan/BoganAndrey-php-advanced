@@ -3,7 +3,7 @@
   <a href="/">Вернуться в каталог товаров.</a>
 
   <h1><?= $model->name ?></h1>
-  <p><?= $model->description ?></p>
+  <p><?= $model->text ?></p>
   <p>Цена: <?= $model->price ?></p>
 
 <?php if (isset($_SESSION['user'])) : ?>

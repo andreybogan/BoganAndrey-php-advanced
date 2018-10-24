@@ -7,6 +7,7 @@ namespace app\services\renderers;
  * @package app\services\renderers
  */
 class TemplateRenderer implements IRenderer {
+
   /**
    * Метод генерирует шаблон и возвращает его в виде строки.
    * @param string $template - Имя подлключаемой страницы.

@@ -11,7 +11,7 @@ class Product extends DataModel {
 
   protected $id;
   protected $name;
-  protected $description;
+  protected $text;
   protected $price;
   protected $img;
   protected $hide;

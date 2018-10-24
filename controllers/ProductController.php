@@ -17,7 +17,7 @@ class ProductController extends Controller {
     // Получаем объект товара.
     $model = Product::getAll();
     // Выводим html страницу с полным описание товара.
-    echo $this->render('catalog', ['model' => $model]);
+    echo $this->render('catalog', ['model' => $model], false);
   }
 
   /**
@@ -31,6 +31,6 @@ class ProductController extends Controller {
     // Получаем массив картинок для товара.
     $modelImg = $model->getProductImg($id);
     // Выводим html страницу с полным описание товара.
-    echo $this->render('card', ['model' => $model, 'modelImg' => $modelImg]);
+    echo $this->render('card', ['model' => $model, 'modelImg' => $modelImg], false);
   }
 }
