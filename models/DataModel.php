@@ -161,16 +161,13 @@ abstract class DataModel implements IModel {
   }
 
   /**
-   * Метод срабатывает если запрашивается проверка свойства на существование. Если свойство принадлежит заданному
-   * классу или объекту, то возвращается true, иначе false.
+   * Метод срабатывает если запрашивается проверка свойства на существование. Если свойство существует в объекте, то
+   * возвращается true, иначе false.
    * @param string $name - Имя свойства.
    * @return bool Если свойство принадлежит заданному классу или объекту, то возвращается true, иначе false.
    */
   public function __isset($name) {
-    if (property_exists($this, $name)) {
-      return true;
-    }
-    return false;
+    return isset($this->$name);
   }
 
   /**

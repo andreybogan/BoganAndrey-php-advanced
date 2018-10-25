@@ -23,7 +23,7 @@ class TwigRenderer implements IRenderer {
         'cache' => '../cache',
         'auto_reload' => true
       ));
-      // Передаем в шаблон переменные и значения и выводим сформированное содержаниею
+      // Передаем шаблон и параметры и возвращаем сформированное содержание.
       return $twig->render($template . ".twig", $params);
     } catch (\Exception $e) {
       exit('Ошибка: ' . $e->getMessage());
