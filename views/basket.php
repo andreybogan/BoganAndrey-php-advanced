@@ -1,6 +1,6 @@
 <?php /** @var  \app\models\Basket $model */ ?>
 
-  <a href="/">Вернуться в каталог товаров.</a>
+  <a href="/product">Вернуться в каталог товаров.</a>
 
   <h1>Корзина</h1>
 
@@ -12,7 +12,7 @@
 
   <?php else: ?>
 
-    <?php foreach ($model as $value): ?>
+    <?php foreach ($model as $key => $value): ?>
       <div class="itemBasket">
         <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">
           - <?= $value->name ?>:

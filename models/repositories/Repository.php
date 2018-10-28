@@ -1,26 +1,20 @@
 <?php
 
-namespace app\models;
+namespace app\models\repositories;
 
+use app\models\entity\DataEntity;
 use app\services\Db;
 
-/**
- * Class DataModel определяет свойства и методы для работы с базой данных различных объектов модели, таких как:
- * продукты, пользователи, корзина, заказы и т.д.
- * @package app\models
- */
-abstract class DataModel implements IModel {
+abstract class Repository implements IRepository {
 
   /** @var Db */
   protected $db;
-  /** @var array - Массив будет содержать список измененных свойств. */
-  protected $changedValue = [];
 
   /**
    * Конструктор инициализирует свойство с текущим подключением к базе данных.
    */
   public function __construct() {
-    $this->db = Db::getInstance();
+    $this->db = static::getDb();
   }
 
   /**
@@ -36,10 +30,10 @@ abstract class DataModel implements IModel {
    * @param int $id - ID элемента в базе данных.
    * @return object Элемент в виде объекта текущего класса.
    */
-  public static function getOne($id) {
+  public function getOne($id) {
     $table = static::getTableName();
     $sql = "select * from {$table} where id = :id";
-    $std = static::getDb()->queryObject($sql, get_called_class(), [':id' => $id]);
+    $std = static::getDb()->queryObject($sql, $this->getEntityClass(), [':id' => $id]);
     return $std;
   }
 
@@ -47,24 +41,27 @@ abstract class DataModel implements IModel {
    * Метод получает из базы данных массив элементов и возвращает их в виде объекта класса.
    * @return array Массив элементов в виде объектов класса.
    */
-  public static function getAll() {
+  public function getAll() {
     $table = static::getTableName();
     $sql = "select * from {$table}";
-    return static::getDb()->queryArrObject($sql, get_called_class());
+    return static::getDb()->queryArrObject($sql, $this->getEntityClass());
   }
 
   /**
    * Метод удаляет из базы данных информацию о текущем объекте.
+   * @param DataEntity $entity - Объект сущности.
    */
-  public function delete() {
+  public function delete(DataEntity $entity) {
     $sql = "delete from {$this->getTableName()} where id = :id";
-    $this->db->execute($sql, [':id' => $this->id]);
+    $this->db->execute($sql, [':id' => $entity->id]);
   }
 
   /**
    * Метод вставляет данные текущего объекта в базу данных.
+   * @param DataEntity $entity - Объект сущности.
+   * @return mixed|void
    */
-  public function insert() {
+  public function insert(DataEntity $entity) {
     // Получаем название заданной таблицы.
     $table = $this->getTableName();
     // Получаем список полей в заданной таблице.
@@ -74,7 +71,7 @@ abstract class DataModel implements IModel {
     $params = [];
 
     // Обходим в цикле свойства нашего массива.
-    foreach ($this->changedValue as $key => $value) {
+    foreach ($entity as $key => $value) {
       // Свойства должны соответствовать полям таблицы, и их значение не null.
       if (in_array($key, $ArrColumnsInTable) && $value !== null && $value != 'id') {
         $params[":{$key}"] = $value;
@@ -99,8 +96,10 @@ abstract class DataModel implements IModel {
 
   /**
    * Метод обновляет данные текущего объекта в базе данных.
+   * @param DataEntity $entity
+   * @return mixed|void
    */
-  public function update() {
+  public function update(DataEntity $entity) {
     // Получаем название заданной таблицы.
     $table = $this->getTableName();
     // Получаем список полей в заданной таблице.
@@ -110,11 +109,11 @@ abstract class DataModel implements IModel {
     $params = [];
 
     // Обходим в цикле свойства нашего массива.
-    foreach ($this->changedValue as $key => $value) {
+    foreach ($entity as $key => $value) {
       // Свойства должны соответствовать полям таблицы, и их значение не null.
       if (in_array($key, $ArrColumnsInTable) && $value !== null && $value != 'id') {
         // Проверяем значения начальное и измененное, если совпадают, то пропускаем.
-        if ($this->$key != $value) {
+        if ($entity->$key != $value) {
           $params[":{$key}"] = $value;
           $string[] = "{$key} = :{$key}";
         }
@@ -138,37 +137,16 @@ abstract class DataModel implements IModel {
   }
 
   /**
-   * Метод добавляет измененное свойство в массив со списком всех измененных или добавленных свойств.
-   * @param string $name - Название свойства.
-   * @param mixed $value - Значение свойства.
-   */
-  public function __set($name, $value) {
-    if (isset($this->$name)) {
-      $this->changedValue[$name] = $value;
-    }
-  }
-
-  /**
-   * Метод возвращает значение свойства недоступного вне класса.
-   * @param string $name - Название свойства.
-   * @return mixed Значение свойства.
-   */
-  public function __get($name) {
-    if (isset($this->$name)) {
-      return $this->$name;
-    }
-    return null;
-  }
-
-  /**
    * Метод определяет какую операцию нужно запустить для объекта:
    * добавление нового товара (insert) или изменение товара (update).
+   * @param DataEntity $entity - Объект сущности.
+   * @return mixed|void
    */
-  public function save() {
-    if (is_null($this->id)) {
-      $this->insert();
+  public function save(DataEntity $entity) {
+    if (is_null($entity->id)) {
+      $this->insert($entity);
     } else {
-      $this->update();
+      $this->update($entity);
     }
   }
 }

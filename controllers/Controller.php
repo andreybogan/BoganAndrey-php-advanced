@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
+use app\services\Auth;
 use app\services\renderers\IRenderer;
-use app\services\renderers\TemplateRenderer;
 
 /**
  * Class Controller реализует свойства и методы общие для всех контроллеров.
@@ -17,19 +17,22 @@ abstract class Controller {
   private $useLayout = true;
 
   private $renderer = null;
+  protected $auth = null;
 
   /**
    * Controller constructor.
    * @param IRenderer $renderer
+   * @param Auth $auth
    */
-  public function __construct(IRenderer $renderer) {
+  public function __construct(IRenderer $renderer, Auth $auth) {
     $this->renderer = $renderer;
+    $this->auth = $auth;
   }
 
   // Метод запускает контроллер.
   public function run($action = null) {
     // Определяем action.
-    $this->action = $action ?: $this->defaultAction;
+    $this->action = $action ?? $this->defaultAction;
     // Получаем полное имя action.
     $method = "action" . ucfirst($this->action);
 
@@ -37,7 +40,7 @@ abstract class Controller {
     if (method_exists($this, $method)) {
       $this->$method();
     } else {
-      echo "404";
+      throw new \Exception('Нет такого контроллера.');
     }
   }
 

@@ -154,7 +154,7 @@ CREATE TABLE `user` (
 -- Дамп данных таблицы `user`
 --
 
-INSERT INTO `user` (`id_user`, `login`, `pass`, `name`) VALUES
+INSERT INTO users (id, `login`, `pass`, `name`) VALUES
 (7, 'andrey', '$2y$10$XotKDX3afbJu2HKbRv7j/.RcafaLb8RbqOLo9W9uEyYzWcbcMVIAy', 'Андрей'),
 (8, 'olgabogan', '$2y$10$Z2aUDimNIUjELgtbQ0Dfde.sQ.auRKQhAISAUihDwpzQpQUE/IfCe', 'Ольга');
 
@@ -197,8 +197,8 @@ ALTER TABLE `product_img`
 --
 -- Индексы таблицы `user`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`);
+ALTER TABLE users
+  ADD PRIMARY KEY (id);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -231,8 +231,8 @@ ALTER TABLE `product_img`
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
-ALTER TABLE `user`
-  MODIFY `id_user` tinyint(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE users
+  MODIFY id tinyint(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -1,4 +1,4 @@
-<?php /** @var  \app\models\Product $model */ ?>
+<?php /** @var  \app\models\entity\Product $model */ ?>
 
 <h1>Каталог товаров</h1>
 
@@ -6,14 +6,14 @@
 
   <?php foreach ($model as $value): ?>
     <div class="item">
-      <a href="index.php?a=card&id=<?= $value->id ?>">
+      <a href="/product/card/<?= $value->id ?>">
         <?php if ($value->img != ''): ?>
           <img src="./images/small/<?= $value->img ?>" alt="">
         <?php else: ?>
           <div class="plug">Фото отсутствует</div>
         <?php endif; ?>
       </a>
-      <a href="index.php?a=card&id=<?= $value->id ?>">
+      <a href="/product/card/<?= $value->id ?>">
         <p><?= $value->name ?></p>
       </a>
       <p>Цена <?= $value->price ?> руб.</p>

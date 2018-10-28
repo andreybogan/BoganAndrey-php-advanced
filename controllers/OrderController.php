@@ -2,13 +2,13 @@
 
 namespace app\controllers;
 
-use app\models\repositories\BasketRepository;
+use app\models\repositories\OrderRepository;
 
 /**
- * Class BasketController
+ * Class OrderController
  * @package app\controllers
  */
-class BasketController extends Controller {
+class OrderController extends Controller {
 
   /**
    * Метод выводит html страницу корзины.
@@ -17,9 +17,9 @@ class BasketController extends Controller {
     // Получаем id пользователя.
     $id = $this->auth->getUser()->id;
     // Получаем объект товара.
-    $model = (new BasketRepository())->getAllBasket($id);
+    $model = (new OrderRepository())->getAllOrders($id);
 
     // Выводим html страницу с полным описание товара.
-    echo $this->render('basket', ['model' => $model]);
+    echo $this->render('orders', ['model' => $model]);
   }
 }
