@@ -1,0 +1,25 @@
+{% extends "layout/main.twig" %}
+
+{% block content %}
+
+  <a href="/">Вернуться в каталог товаров.</a>
+
+  <h1>{{ model.name }}</h1>
+  <p>{{ model.text }}</p>
+  <p>Цена: {{ model.price }}</p>
+
+  {% if SESSION.user %}
+    <form action="{{ _SERVER.REQUEST_URI }}" method="post" style="margin-bottom: 36px">
+      <input type="hidden" name="id" value="{{ model.id }}">
+      <input type="submit" name="submitAddBasket" class="submit" value="Добавить в корзину">
+    </form>
+  {% endif %}
+
+  {% for val in modelImg %}
+    <a href="../../../images/big/{{ val.img }}" target="_blank"
+       style="display: inline-block;">
+      <img src="../../../images/small/{{ val.img }}" alt="">
+    </a>
+  {% endfor %}
+
+{% endblock %}

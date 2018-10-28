@@ -14,8 +14,6 @@ abstract class Controller {
   private $action;
   private $defaultAction = 'index';
   private $layout = "main";
-  private $useLayout = true;
-
   private $renderer = null;
   protected $auth = null;
 
@@ -48,13 +46,14 @@ abstract class Controller {
    * Метод обертка возвращает шаблон в виде строки.
    * @param string $template - Имя подлключаемой страницы.
    * @param array $params - Список параметров, которые мы получаем в функции.
+   * @param bool $userLayout - Если true, то будет рендеринг в layout.
    * @return false|string  Возвращаем сгенерированный шаблон сайта в виде строки.
    */
-  function render($template, $params = []) {
+  function render($template, $params = [], $userLayout =  true) {
     // Получаем содержимое подшаблона в виде строки.
     $content = $this->renderTemplate($template, $params);
     // Проверяем нужно ли использовать шаблон layout.
-    if ($this->useLayout) {
+    if ($userLayout) {
       // Добавляем в параметры полученное содержимое подшаблона.
       $params['content'] = $content;
       // Получаем содержимое шабона в виде строки.
