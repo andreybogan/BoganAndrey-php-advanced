@@ -6,6 +6,7 @@ use app\models\repositories\AuthRepository;
 use app\models\repositories\UserRepository;
 
 class Auth {
+
   // Имя сессии.
   private $ses_name;
   // Значение кнопки submit авторизации.
