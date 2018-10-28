@@ -46,18 +46,34 @@ class Auth {
     $this->login = trim($postLogin['login']) ?? '';
     $this->pass = trim($postLogin['pass']) ?? '';
 
-//    $this->request_uri = $this->request->getRequestUri();var_dump($this->request_uri);
+    // Задаем имя сессии.
     session_name($this->ses_name);
-    // инициализация сессии
+    // Инициализация сессии.
     session_start();
-    // получаем значение текующей сессии
+
+    // Получаем значение текующей сессии.
     $this->session_id = session_id();
 
     // Если была нажата кнопка выхода из сесии, то выходим из сессии.
+    $this->LoginOut();
+
+    // Проверяем зарегистрирован ли идентификатор пользователя.
+    $this->CheckAuthUser();
+  }
+
+  /**
+   * Если была нажата кнопка выхода из сесии, то выходим из сессии.
+   */
+  private function LoginOut() {
     if (isset($this->logout)) {
       $this->login_out();
     }
-    // проверяем зарегистрирован ли идентификатор пользователя
+  }
+
+  /**
+   * Проверяем зарегистрирован ли идентификатор пользователя.
+   */
+  private function CheckAuthUser() {
     if ($this->check_auth()) {
       // Получаем объект пользователя по login.
       $this->user = (new UserRepository())->getOneWithLogin($_SESSION['user']);
