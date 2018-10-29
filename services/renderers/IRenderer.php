@@ -2,6 +2,12 @@
 
 namespace app\services\renderers;
 
-interface IRenderer {
-  public function render($tamplaet, $params = []);
+/**
+ * Interface IRenderer
+ * @package app\services\renderers
+ */
+interface IRenderer
+{
+    // Метод генерирует шаблон и возвращает его в виде строки.
+    public function render($tamplaet, $params = []);
 }

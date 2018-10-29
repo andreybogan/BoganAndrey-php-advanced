@@ -7,12 +7,12 @@ namespace app\models\entity;
  * подробную информацию о товаре, изменение и удаление товара и т.д.
  * @package app\models
  */
-class Product extends DataEntity {
-
-  protected $id;
-  protected $name;
-  protected $text;
-  protected $price;
-  protected $img;
-  protected $hide;
+class Product extends DataEntity
+{
+    protected $id;
+    protected $name;
+    protected $text;
+    protected $price;
+    protected $img;
+    protected $hide;
 }
