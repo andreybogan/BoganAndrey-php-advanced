@@ -73,7 +73,7 @@ class App
 
     /**
      * Метод создает объект заданного компонента или репозитория и возвращает его.
-     * @param $name - Название компонента или репозитория.
+     * @param string $name - Название компонента или репозитория.
      * @return object Возвращает объект заданного компонента или репозитория.
      * @throws \ReflectionException
      */
@@ -88,8 +88,7 @@ class App
                 // Удаляем параметр class, так как его не нужно передавать.
                 unset($params['class']);
                 // Получаем объект заданног класса с переданными в него значения, и возвращаем его.
-                $reflection = new \ReflectionClass($class);
-                return $reflection->newInstanceArgs($params);
+                return $this->getObject($class, $params);
             } else {
                 throw new \Exception("Не определен класс компонента.");
             }
@@ -97,13 +96,26 @@ class App
             // Получаем класс репозитория.
             $class = $this->config['repositoriesNamespace'] . '\\' . $name;
             if (class_exists($class)) {
+                $params = [];
                 // Получаем объект заданног класса с переданными в него значения, и возвращаем его.
-                $reflection = new \ReflectionClass($class);
-                return $reflection->newInstanceArgs();
+                return $this->getObject($class, $params);
             } else {
                 throw new \Exception("Репозиторий {$name} не найден.");
             }
         }
+    }
+
+    /**
+     * Получаем объект заданног класса с переданными в него значения, и возвращаем его.
+     * @param string $class - Создаваемы класс.
+     * @param array $params - Параметры необходимые для создания объекта класс.
+     * @return object Возвращает объект заданного компонента или репозитория.
+     * @throws \ReflectionException
+     */
+    private function getObject($class, $params)
+    {
+        $reflection = new \ReflectionClass($class);
+        return $reflection->newInstanceArgs($params);
     }
 
     /**

@@ -31,7 +31,7 @@ class Storage
      * метод возвращает его, если не существует, то создает его и возвращает.
      * @param $name - Название компонента или репозитория.
      * @return object - объект копонента или репозитория.
-     * @throws \ReflectionException - Исключение класса \ReflectionException.
+     * @throws \Exception
      */
     public function get($name)
     {
