@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\repositories\OrderRepository;
+use app\base\App;
 
 /**
  * Class OrderController
@@ -18,7 +18,7 @@ class OrderController extends Controller
         // Получаем id пользователя.
         $id = $this->auth->getUser()->id;
         // Получаем объект товара.
-        $model = (new OrderRepository())->getAllOrders($id);
+        $model = App::call()->OrderRepository->getAllOrders($id);
 
         // Выводим html страницу с полным описание товара.
         echo $this->render('orders', ['model' => $model]);

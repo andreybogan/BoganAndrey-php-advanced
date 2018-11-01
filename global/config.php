@@ -12,6 +12,7 @@ return [
     'templateDir' => __DIR__ . '/../views/',
     'defaultController' => 'product',
     'controllersNamespace' => 'app\\controllers',
+    'repositoriesNamespace' => 'app\\models\\repositories',
     'components' => [
         'db' => [
             'class' => \app\services\Db::class,

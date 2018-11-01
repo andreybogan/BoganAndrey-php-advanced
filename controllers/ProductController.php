@@ -3,8 +3,6 @@
 namespace app\controllers;
 
 use app\base\App;
-use app\models\repositories\BasketRepository;
-use app\models\repositories\ProductRepository;
 
 /**
  * Class ProductController
@@ -25,14 +23,14 @@ class ProductController extends Controller
         // Если нажата кнопка добавить в корзину, то добавляем.
         if (isset($submit)) {
             // Добавляем товар в корзину.
-            (new BasketRepository())->addProdToBasket($this->auth->getUser()->id, $request->post('id_prod'));
+            App::call()->BasketRepository->addProdToBasket($this->auth->getUser()->id, $request->post('id_prod'));
             // Делаем редирект.
             header("Location: " . $_SERVER['REQUEST_URI']);
             exit;
         }
 
         // Получаем объект товара.
-        $model = (new ProductRepository())->getAll();
+        $model = App::call()->ProductRepository->getAll();
         // Выводим html страницу с полным описание товара.
         echo $this->render('catalog', ['model' => $model]);
     }
@@ -52,14 +50,14 @@ class ProductController extends Controller
         // Если нажата кнопка добавить в корзину, то добавляем.
         if (isset($submit)) {
             // Добавляем товар в корзину.
-            (new BasketRepository())->addProdToBasket($this->auth->getUser()->id, $id);
+            App::call()->BasketRepository->addProdToBasket($this->auth->getUser()->id, $id);
             // Делаем редирект.
             header("Location: " . $_SERVER['REQUEST_URI']);
             exit;
         }
 
         // Получаем объект хранилища.
-        $productRepository = new ProductRepository();
+        $productRepository = App::call()->ProductRepository;
         // Получаем объект товара.
         $model = $productRepository->getOne($id);
         // Получаем массив картинок для товара.

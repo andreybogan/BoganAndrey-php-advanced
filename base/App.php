@@ -94,7 +94,15 @@ class App
                 throw new \Exception("Не определен класс компонента.");
             }
         } else {
-            throw new \Exception("Компонент {$name} не найден.");
+            // Получаем класс репозитория.
+            $class = $this->config['repositoriesNamespace'] . '\\' . $name;
+            if (class_exists($class)) {
+                // Получаем объект заданног класса с переданными в него значения, и возвращаем его.
+                $reflection = new \ReflectionClass($class);
+                return $reflection->newInstanceArgs();
+            } else {
+                throw new \Exception("Репозиторий {$name} не найден.");
+            }
         }
     }
 

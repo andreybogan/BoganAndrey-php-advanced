@@ -10,7 +10,6 @@ use app\base\App;
  */
 abstract class Controller
 {
-
     private $action;
     private $defaultAction = 'index';
     private $layout = "main";
