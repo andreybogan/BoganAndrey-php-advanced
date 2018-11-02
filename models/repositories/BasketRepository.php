@@ -36,7 +36,7 @@ class BasketRepository extends Repository
     public function getAllBasket($id)
     {
         $table = static::getTableName();
-        $sql = "select * from {$table} where id_user = :id_user";
+        $sql = "select {$table}.*, products.name, products.price from {$table} inner join products where {$table}.id_user = :id_user and products.id = {$table}.id_prod";
         return $this->db->queryAll($sql, [':id_user' => $id]);
     }
 

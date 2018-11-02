@@ -26,8 +26,11 @@ class App
     /** @var array Конфигурация приложения. */
     public $config;
 
-    /** @var array Массив компонентов. */
+    /** @var array Массив объектов компонентов. */
     private $components = [];
+
+    /** @var array Массив объектов репозиториев. */
+    private $repositories = [];
 
     /** @return App Возвращает экземпляр нашего приложения. */
     public static function call()
@@ -41,8 +44,12 @@ class App
      */
     public function run($config)
     {
+        // Инициализируем данные конфигурации
         $this->config = $config;
-        $this->components = new Storage();
+        // Инициализиурем классы хранения.
+        $this->components = new ComponentsStorage();
+        $this->repositories = new RepositoriesStorage();
+        // Вызываем метод контроля и запуска приложения.
         $this->runController();
     }
 
@@ -72,9 +79,9 @@ class App
     }
 
     /**
-     * Метод создает объект заданного компонента или репозитория и возвращает его.
-     * @param string $name - Название компонента или репозитория.
-     * @return object Возвращает объект заданного компонента или репозитория.
+     * Метод создает объект заданного компонента и возвращает его.
+     * @param string $name - Название компонента.
+     * @return object Возвращает объект заданного компонента.
      * @throws \ReflectionException
      */
     public function createComponent($name)
@@ -93,15 +100,27 @@ class App
                 throw new \Exception("Не определен класс компонента.");
             }
         } else {
-            // Получаем класс репозитория.
-            $class = $this->config['repositoriesNamespace'] . '\\' . $name;
-            if (class_exists($class)) {
-                $params = [];
-                // Получаем объект заданног класса с переданными в него значения, и возвращаем его.
-                return $this->getObject($class, $params);
-            } else {
-                throw new \Exception("Репозиторий {$name} не найден.");
-            }
+
+            throw new \Exception("Компонент {$name} не найден.");
+        }
+    }
+
+    /**
+     * Метод создает объект заданного репозитория и возвращает его.
+     * @param string $name - Название репозитория.
+     * @return object Возвращает объект заданного репозитория.
+     * @throws \ReflectionException
+     */
+    public function createRepository($name)
+    {
+        // Получаем класс репозитория.
+        $class = $this->config['repositoriesNamespace'] . '\\' . $name;
+        if (class_exists($class)) {
+            $params = [];
+            // Получаем объект заданног класса с переданными в него значения, и возвращаем его.
+            return $this->getObject($class, $params);
+        } else {
+            throw new \Exception("Репозиторий {$name} не найден.");
         }
     }
 
@@ -125,7 +144,12 @@ class App
      */
     public function __get($name)
     {
-        return $this->components->get($name);
+        // Если запрашиваемый параметр есть в списке компонентов, то возвращаем объект этого компонента.
+        if (isset($this->config['components'][$name])) {
+            return $this->components->get($name);
+        }
+        // Если запрашиваемог параметра нет, то возвращаем объект репозитория, если таковой существует.
+        return $this->repositories->get($name);
     }
 
 }

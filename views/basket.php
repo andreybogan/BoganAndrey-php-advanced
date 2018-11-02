@@ -12,17 +12,17 @@
 
     <?php else: ?>
 
-        <?php foreach ($model as $key => $value): ?>
+        <?php foreach ($model as $value): ?>
             <div class="itemBasket">
                 <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">
-                    - <?= $value->name ?>:
-                    <input type="hidden" name="id_prod" value="<?= $value->id_prod ?>">
+                    - <?= $value['name'] ?>:
+                    <input type="hidden" name="id_prod" value="<?= $value['id_prod'] ?>">
                     <div style="margin: 0 12px; display: inline-block;">
                         <input type="submit" name="submitRemoveBasket" class="submit" value="-">
-                        &nbsp;<?= $value->amount ?>&nbsp;
+                        &nbsp;<?= $value['amount'] ?>&nbsp;
                         <input type="submit" name="submitAddBasket" class="submit" value="+">
                     </div>
-                    <?= $value->price * $value->amount ?> руб.
+                    <?= $value['price'] * $value['amount'] ?> руб.
                 </form>
             </div>
         <?php endforeach; ?>

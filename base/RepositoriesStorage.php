@@ -2,28 +2,28 @@
 /**
  * Created by PhpStorm.
  * User: Andrey Bogan
- * Date: 29.10.2018
+ * Date: 01.11.2018
  */
 
 namespace app\base;
 
+
 /**
- * Class Storage обеспечивает хранение объектов наших компонентов и репозиториев.
+ * Class RepositoriesStorage обеспечивает хранение объектов наших репозиториев.
  * @package app\base
  */
-class Storage
+class RepositoriesStorage
 {
     private $items = [];
 
     /**
-     * Метод помещает объект заданного компонента или репозитория в массив для хранения.
+     * Метод помещает объект заданного элемента в массив для хранения.
      * @param $name - Название компонента или репозитория.
      * @param $object - Объект компонента или репозитория.
-     * @return mixed возвращает
      */
     public function set($name, $object)
     {
-        return $this->items[$name] = $object;
+        $this->items[$name] = $object;
     }
 
     /**
@@ -36,7 +36,7 @@ class Storage
     public function get($name)
     {
         if (!isset($this->items[$name])) {
-            $this->items[$name] = App::call()->createComponent($name);
+            $this->items[$name] = App::call()->createRepository($name);
         }
         return $this->items[$name];
     }
