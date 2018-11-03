@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\base\App;
+use app\models\entity\Basket;
 
 /**
  * Class ProductController
@@ -23,7 +24,7 @@ class ProductController extends Controller
         // Если нажата кнопка добавить в корзину, то добавляем.
         if (isset($submit)) {
             // Добавляем товар в корзину.
-            App::call()->BasketRepository->addProdToBasket($this->auth->getUser()->id, $request->post('id_prod'));
+            (new Basket())->addProdToBasket($this->auth->getUser()->id, $request->post('id_prod'));
             // Делаем редирект.
             header("Location: " . $_SERVER['REQUEST_URI']);
             exit;
@@ -50,7 +51,7 @@ class ProductController extends Controller
         // Если нажата кнопка добавить в корзину, то добавляем.
         if (isset($submit)) {
             // Добавляем товар в корзину.
-            App::call()->BasketRepository->addProdToBasket($this->auth->getUser()->id, $id);
+            (new Basket())->addProdToBasket($this->auth->getUser()->id, $id);
             // Делаем редирект.
             header("Location: " . $_SERVER['REQUEST_URI']);
             exit;

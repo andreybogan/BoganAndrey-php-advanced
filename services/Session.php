@@ -16,10 +16,8 @@ class Session
      * Session constructor запускает сессию с заданным именем.
      * @param $session_name - Название новой сессии.
      */
-    public function __construct($session_name)
+    public function __construct()
     {
-        // Устанавливаем имя текущей сессии.
-        session_name($session_name);
         // Стартуем новую сессию.
         session_start();
     }

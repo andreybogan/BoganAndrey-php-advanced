@@ -3,6 +3,7 @@
 namespace app\services;
 
 
+use app\base\App;
 use app\models\repositories\UserRepository;
 
 class CheckAuth
@@ -30,7 +31,7 @@ class CheckAuth
 
             // Проверяем логина на уникальность.
             if ($unicLogin === true) {
-                if ((new UserRepository())->checkLoginUnique($login)) {
+                if (App::call()->UserRepository->checkLoginUnique($login)) {
                     $errors[] = "Этот логин уже занят, попробуйте выбрать другой.";
                 };
             }

@@ -1,4 +1,4 @@
-<?php /** @var  \app\models\Basket $model */ ?>
+<?php /** @var  \app\models\entity\Basket $model, $totalSum */ ?>
 
     <a href="/product">Вернуться в каталог товаров.</a>
 
@@ -26,16 +26,16 @@
                 </form>
             </div>
         <?php endforeach; ?>
-        <p style="font-weight: bold">Общая сумма: <?= $value ?> руб.</p>
+        <p style="font-weight: bold">Общая сумма: <?= $totalSum ?> руб.</p>
 
         <hr>
 
         <h2>Информация для заказа.</h2>
 
-        <form action="http://<?= $_SERVER['HTTP_HOST'] ?>/orders" method="post">
+        <form action="http://<?= $_SERVER['HTTP_HOST'] ?>/order" method="post">
             <label for="address">Адрес доставки</label>
             <input type="text" name="address" id="address" value="" required>
-            <input type="hidden" name="totalPriceBasket" value="<?= $value ?>">
+            <input type="hidden" name="totalPriceBasket" value="<?= $totalSum ?>">
             <input type="submit" name="submitAddOrder" class="submit" value="Оформить заказ">
         </form>
     <?php endif; ?>

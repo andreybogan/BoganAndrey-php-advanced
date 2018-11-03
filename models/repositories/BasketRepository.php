@@ -41,30 +41,12 @@ class BasketRepository extends Repository
     }
 
     /**
-     * Метод добавляет товар в корзину для текущего пользователя. Если товар с заданным ID уже есть в корзине, то
-     * обновляется количество, если нет, то добавляется новый товар.
-     * @param int $id_user - ID пользователя.
-     * @param int $id_prod - ID товара.
-     */
-    public function addProdToBasket($id_user, $id_prod)
-    {
-        // Проверяем есть ли для заданного ID товары в корзине.
-        if ($this->getAmountBasketID($id_user, $id_prod) != null) {
-            // Обновляем данные о количестве товаров.
-            $this->updateProdToBasket($id_user, $id_prod);
-        } else {
-            // Добавляем товар в корзину.
-            $this->insertProdToBasket($id_user, $id_prod);
-        }
-    }
-
-    /**
      * Метод возвращает количество товаров в корзине по заданному ID у текущего пользователя.
      * @param int $id_user - ID пользователя.
      * @param int $id_prod - ID товара.
      * @return int|null Возвращает количество товаров в корзине, или null, если для заданного ID товаров нет.
      */
-    protected function getAmountBasketID($id_user, $id_prod)
+    public function getAmountBasketID($id_user, $id_prod)
     {
         $table = static::getTableName();
         $sql = "select amount from {$table} where id_user = :id_user and id_prod = :id_prod";
@@ -72,11 +54,11 @@ class BasketRepository extends Repository
     }
 
     /**
-     * Метод изменяет информацию в базе данных о товаре.
+     * Метод изменяет информацию в базе данных о товаре прибавляя один товар.
      * @param int $id_user - ID пользователя.
      * @param int $id_prod - ID товара.
      */
-    protected function updateProdToBasket($id_user, $id_prod)
+    public function updateProdToBasket($id_user, $id_prod)
     {
         $table = static::getTableName();
         // Составляем строку запроса.
@@ -89,11 +71,28 @@ class BasketRepository extends Repository
     }
 
     /**
-     * Метод добавляет товар информацию в базу данных о добавленном товаре.
+     * Метод изменяет информацию в базе данных о товаре убавляя один товар.
      * @param int $id_user - ID пользователя.
      * @param int $id_prod - ID товара.
      */
-    protected function insertProdToBasket($id_user, $id_prod)
+    public function updateProdFromBasket($id_user, $id_prod)
+    {
+        $table = static::getTableName();
+        // Составляем строку запроса.
+        $sql = "update {$table} set amount = amount - 1 where id_user = :id_user and id_prod = :id_prod";
+        // Формируем параметры.
+        $params = [':id_user' => $id_user, ':id_prod' => $id_prod];
+
+        // Выполняем наш запрос.
+        $this->db->execute($sql, $params);
+    }
+
+    /**
+     * Метод добавляет информацию о добавленном товаре в базу данных.
+     * @param int $id_user - ID пользователя.
+     * @param int $id_prod - ID товара.
+     */
+    public function insertProdToBasket($id_user, $id_prod)
     {
         $table = static::getTableName();
         // Собираем строку для полей таблицы.
@@ -103,6 +102,41 @@ class BasketRepository extends Repository
         $sql = "insert into {$table} ({$columns}) values ({$placeholders})";
         // Формируем параметры.
         $params = [':id_user' => $id_user, ':id_prod' => $id_prod, ':amount' => '1'];
+
+        // Выполняем наш запрос.
+        $this->db->execute($sql, $params);
+    }
+
+    /**
+     * Метод удаляет информацию о товаре из базы данных.
+     * @param int $id_user - ID пользователя.
+     * @param int $id_prod - ID товара.
+     */
+    public function deleteProdFromBasket($id_user, $id_prod)
+    {
+        $table = static::getTableName();
+
+        // Составляем строку запроса.
+        $sql = "delete from {$table} where id_prod = :id_prod and id_user = :id_user";
+        // Формируем параметры.
+        $params = [':id_user' => $id_user, ':id_prod' => $id_prod];
+
+        // Выполняем наш запрос.
+        $this->db->execute($sql, $params);
+    }
+
+    /**
+     * Метод удаляет все товары из корзины у пользователя с заданным ID.
+     * @param string $id Id пользователя.
+     */
+    public function cleanBasket($id)
+    {
+        $table = static::getTableName();
+
+        // Составляем строку запроса.
+        $sql = "delete from {$table} where id_user = :id_user";
+        // Формируем параметры.
+        $params = [':id_user' => $id];
 
         // Выполняем наш запрос.
         $this->db->execute($sql, $params);

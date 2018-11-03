@@ -79,16 +79,16 @@ class Auth
     {
         if ($this->check_auth()) {
             // Получаем объект пользователя по login.
-            $this->user = (new UserRepository())->getOneWithLogin($_SESSION['user']);
+            $this->user = App::call()->UserRepository->getOneWithLogin($_SESSION['user']);
         } else {
             // проверяем бала ли заполнена и отправлена форма авторизации
             if (isset($this->submit) && !empty($this->login) && !empty($this->pass)) {
                 // Проверяем существует ли в базе пользователем с полученным именем пользователя и паролем.
-                if ($result = (new AuthRepository())->isAuth($this->login, $this->pass)) {
+                if ($result = App::call()->UserRepository->isAuth($this->login, $this->pass)) {
                     // Регистрируем идентификатор пользователя.
                     $this->reg_session_user();
                     // Получаем объект пользователя по login.
-                    $this->user = (new UserRepository())->getOneWithLogin($this->login);
+                    $this->user = App::call()->UserRepository->getOneWithLogin($this->login);
                     // Делаем переадресацию на страницу пользователя.
                     header('Location: ../user');
                     exit;

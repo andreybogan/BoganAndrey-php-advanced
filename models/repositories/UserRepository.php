@@ -62,4 +62,47 @@ class UserRepository extends Repository
         $std = $this->db->queryObject($sql, $this->getEntityClass(), [':login' => $login]);
         return $std;
     }
+
+    /**
+     * Метод проверяет введенный пользователем логин на уникальность.
+     * @param string $login - Логин пользователя.
+     * @return bool Если логин уже существует, то возвращается true, иначе - false.
+     */
+    function checkLoginUnique($login)
+    {
+        $table = static::getTableName();
+        $sql = "select id from {$table} where login = :login";
+        $std = $this->db->queryOne($sql, [':login' => $login]);
+
+
+        // Проверяем, есть ли в базе информация по данному имени пользователя, если есть, то возвращаем true.
+        if ($std) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Метод заносит данные пользователя в базу данных.
+     * @param mixed $login - Логин пользователя.
+     * @param mixed $name - Имя пользователя.
+     * @param mixed $pass - Пароль пользователя.
+     */
+    function addRegInfoInBd($login, $pass, $name)
+    {
+        $table = static::getTableName();
+
+        // Собираем строку для полей таблицы.
+        $columns = 'login, pass, name';
+        $placeholders = ':login, :pass, :name';
+
+        // Составляем строку запроса.
+        $sql = "insert into {$table} ({$columns}) values ({$placeholders})";
+
+        // Формируем параметры.
+        $params = [':login' => $login, ':pass' => $pass, ':name' => $name];
+
+        // Выполняем наш запрос.
+        $this->db->execute($sql, $params);
+    }
 }

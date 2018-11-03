@@ -1,18 +1,18 @@
 <?php /** @var  \app\models\entity\Order $model */ ?>
 
-    <a href="catalog">Вернуться в каталог товаров.</a>
+    <a href="/">Вернуться в каталог товаров.</a>
 
     <h1>Мои заказы</h1>
 
 <?php if (isset($_SESSION['user'])) : ?>
 
-    <?php if ($arrOrders == null) : ?>
+    <?php if ($model == null) : ?>
 
         <p>У вас пока нет заказов</p>
 
     <?php else: ?>
         <ul>
-            <?php foreach ($arrOrders as $value): ?>
+            <?php foreach ($model as $value): ?>
                 <li data-id_order="<?= $value['id_order'] ?>" class="cancelled" style="margin: 6px 0">
                     Заказ №<?= $value['id_order'] ?> на сумму <b><?= $value['total'] ?> руб</b>, статус:
                     <?php if ($value['status'] == 'new') : ?>
